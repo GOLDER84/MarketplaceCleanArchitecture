@@ -7,9 +7,9 @@ public class Item
     public int id {get; set;}
     
     // static int ID_ITEM_COUNTER = 1;
-    string name {get; set;}
+    public string name {get; set;}
     public double price {get; set;}
-    string description {get; set;}
+    public string description {get; set;}
 
     public Item(string name, double price, string description)
     {
