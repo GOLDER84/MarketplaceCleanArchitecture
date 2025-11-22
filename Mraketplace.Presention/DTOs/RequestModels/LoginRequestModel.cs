@@ -2,7 +2,12 @@
 
 public class LoginRequestModel
 {
-    private string username;
-    private string password;
-    
+    public string username { get; }
+    public string password { get; }
+
+    public LoginRequestModel(string username, string password)
+    {
+        this.username = username;
+        this.password = password;
+    }
 }
