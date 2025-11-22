@@ -1,5 +1,4 @@
-﻿// Mraketplace.Presention/DTOs/RequestModels/EditRequestModel.cs
-namespace Mraketplace.Presention.DTOs.RequestModels
+﻿namespace Mraketplace.Presention.DTOs.RequestModels
 {
     public class EditRequestModel
     {

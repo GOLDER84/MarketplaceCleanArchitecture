@@ -13,13 +13,11 @@ namespace Mraketplace.Presention
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            // Add framework services
+            
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            // Read connection string and configure EF Core with SQL Server and retries
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             // builder.Services.AddDbContext<DatabaseManager>(options =>
             //     options.UseSqlServer(connectionString, sqlOptions =>
@@ -35,7 +33,6 @@ namespace Mraketplace.Presention
                     ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
                 ));
 
-            // Register repositories and application services
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IItemRepository, ItemRepository>();
 
@@ -44,8 +41,7 @@ namespace Mraketplace.Presention
 
             
             var app = builder.Build();
-
-            // Configure middleware
+            
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

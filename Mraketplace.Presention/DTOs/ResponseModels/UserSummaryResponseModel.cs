@@ -1,5 +1,4 @@
-﻿// csharp
-using Marketplace.Domain;
+﻿using Marketplace.Domain;
 
 namespace Mraketplace.Presention.DTOs.ResponseModels;
 
@@ -22,7 +21,6 @@ public class UserSummaryResponseModel
         Email = email;
     }
 
-    // Maps a domain User to this DTO. Returns null if the domain user is null.
     public static UserSummaryResponseModel? FromDomain(User? user)
     {
         if (user == null) return null;
@@ -35,8 +33,7 @@ public class UserSummaryResponseModel
             email: user.email ?? string.Empty
         );
     }
-
-    // Returns a compact readable summary for logging or display
+    
     public string ToSummaryString()
     {
         return $"{Name} ({Username}) - Age: {Age}, Credit: {Credit:F2}, Email: {Email}";
