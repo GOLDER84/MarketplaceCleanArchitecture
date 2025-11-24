@@ -1,4 +1,5 @@
-﻿using Marketplace.Domain;
+﻿using Marketplace.Application.Interfaces;
+using Marketplace.Domain;
 using Service.Interfaces.Repsitoreis;
 
 namespace Service;
@@ -6,15 +7,17 @@ namespace Service;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
+    private readonly IUserSessionService _userSessionService;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository , IUserSessionService userSessionService)
     {
         _userRepository = userRepository;
+        _userSessionService = userSessionService;
     }
 
     public async Task<string> RegisterAsync(string name, string username, string password, int age, double credit, string email)
     {
-        if (await _userRepository.ExistsUserAsync(name))
+        if (await _userRepository.ExistsUserAsync(username))
         {
             return "User with same name already exists";
         }
@@ -24,16 +27,23 @@ public class UserService : IUserService
         return "User created";
     }
 
-    public async Task<string> LoginAsync(string username, string password)
+    public async Task<User?> LoginAsync(string username, string password)
     {
         var user = await _userRepository.GetUserByUserNameAsync(username);
         if (user != null && user.password == password)
         {
-            return "Login successful";
+            _userSessionService.SetCurrentUser(user);
+            return user;
         }
-        return "Invalid username or password";
+        _userSessionService.SetCurrentUser(null);
+        return null;
     }
 
+    public Task LogoutAsync()
+    {
+        _userSessionService.SetCurrentUser(null);
+        return Task.CompletedTask;
+    }
 
     public async Task<string> EditAsync(string name, string username, string password, int age, string email)
     {

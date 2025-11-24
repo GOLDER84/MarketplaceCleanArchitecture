@@ -33,6 +33,7 @@ namespace Mraketplace.Presention
                     ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
                 ));
 
+            builder.Services.AddSingleton<IUserSessionService, UserSessionService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IItemRepository, ItemRepository>();
 

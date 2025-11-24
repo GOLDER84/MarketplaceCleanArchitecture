@@ -33,14 +33,20 @@ public class UsersController : ControllerBase
         var result = await _userService.LoginAsync(loginRequest.username, loginRequest.password);
         return Ok(result);
     }
-
-    // Fixed: use POST + FromBody for complex DTO binding
+    
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterRequestModel request)
     {
         if (request == null) return BadRequest();
         var result = await _userService.RegisterAsync(request.name, request.username, request.password, request.age, request.credit, request.email);
         return Ok(result);
+    }
+    
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await _userService.LogoutAsync();
+        return Ok("Logged out successfully");
     }
 
     [HttpPut("edit")]

@@ -9,11 +9,12 @@ public class ItemService : IItemService
 {
     private readonly IItemRepository _itemRepository;
     private readonly IUserRepository _userRepository;
-
-    public ItemService(IItemRepository itemRepository, IUserRepository userRepository)
+    private readonly IUserSessionService _userSessionService;
+    public ItemService(IItemRepository itemRepository, IUserRepository userRepository , IUserSessionService userSessionService)
     {
         _itemRepository = itemRepository;
         _userRepository = userRepository;
+        _userSessionService = userSessionService;
     }
     public async Task<string> AddAsync(string name, double price, string description)
     {
@@ -38,25 +39,41 @@ public class ItemService : IItemService
         }
     }
 
-    public async Task<string> BuyAsync(string username, int itemId)
+
+    public async Task<string> BuyAsync(int itemId)
     {
-        var user = await _userRepository.GetUserByUserNameAsync(username);
-        var item = await _itemRepository.GetItemByIdAsync(itemId);
+        var user = _userSessionService.GetCurrentUser();
         if (user == null)
         {
-            return "User not found";
+            return "User not logged in. Please login first.";
         }
+
+        var item = await _itemRepository.GetItemByIdAsync(itemId);
         if (item == null)
         {
             return "Item not found";
         }
-        if (user.credit < item.price)
+        
+        var dbUser = await _userRepository.GetUserByIdAsync(user.id);
+        if (dbUser == null)
+        {
+            return "User not found in database.";
+        }
+
+        if (dbUser.credit < item.price)
         {
             return "Insufficient credit";
         }
-        user.credit -= item.price;
-        await _itemRepository.BuyItemAsync(item);
+
+        dbUser.credit -= item.price;
+        await _userRepository.UpdateUserAsync(dbUser);
+        await _itemRepository.RemoveItemAsync(item);
+        
+        await _userRepository.SaveAsync();
         await _itemRepository.SaveChangesAsync();
+        
+        _userSessionService.SetCurrentUser(dbUser);
+
         return "Item purchased successfully";
     }
 
