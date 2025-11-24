@@ -50,7 +50,7 @@ public class ItemsController : ControllerBase
     public async Task<IActionResult> Buy([FromBody] BuyItemRequestModel request)
     {
         if (request == null) return BadRequest();
-        var result = await _itemService.BuyAsync(request.Username, request.ItemId);
+        var result = await _itemService.BuyAsync(request.ItemId);
         return Ok(result);
     }
 
