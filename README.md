@@ -69,16 +69,17 @@ git clone https://github.com/GOLDER84/MarketplaceCleanArchitecture.git
 
 ---
 
-## 📸 Screenshots / Demo
+## 📸 Screenshots
 
-(Add screenshots or Swagger API preview here)
+![App Screenshot](Screenshot.png)
+
 
 ---
 
 ## 👤 Author
 
 **Aref Zargar**  
-Computer Engineering Student – Backend Developer  
+Computer Engineering Student
 
 - GitHub: https://github.com/GOLDER84  
 - LinkedIn: https://www.linkedin.com/in/aref-zargar-a95287367/
