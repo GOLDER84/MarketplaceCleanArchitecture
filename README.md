@@ -71,7 +71,7 @@ git clone https://github.com/GOLDER84/MarketplaceCleanArchitecture.git
 
 ## 📸 Screenshots
 
-![App Screenshot](Screenshot.png)
+![App Screenshot](Screenshot)
 
 
 ---
